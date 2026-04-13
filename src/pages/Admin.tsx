@@ -22,6 +22,7 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getAllInquiries, deleteInquiry, InquiryData, BookingData, ContactData } from "@/lib/db";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 export default function Admin() {
   const [inquiries, setInquiries] = useState<InquiryData[]>([]);
@@ -224,8 +225,4 @@ function InquiryGrid({ items, onDelete }: { items: InquiryData[], onDelete: (id:
       ))}
     </div>
   );
-}
-
-function cn(...classes: any[]) {
-  return classes.filter(Boolean).join(" ");
 }

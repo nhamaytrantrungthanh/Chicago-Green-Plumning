@@ -61,10 +61,10 @@ export default function Gallery() {
           <Tabs defaultValue="all" className="w-full">
             <div className="flex justify-center mb-12">
               <TabsList className="bg-slate-100 p-1 rounded-full">
-                <TabsTrigger value="all" className="rounded-full px-8 data-[state=active]:bg-emerald-600 data-[state=active]:text-white">All Projects</TabsTrigger>
-                <TabsTrigger value="residential" className="rounded-full px-8 data-[state=active]:bg-emerald-600 data-[state=active]:text-white">Residential</TabsTrigger>
-                <TabsTrigger value="commercial" className="rounded-full px-8 data-[state=active]:bg-emerald-600 data-[state=active]:text-white">Commercial</TabsTrigger>
-                <TabsTrigger value="sewage" className="rounded-full px-8 data-[state=active]:bg-emerald-600 data-[state=active]:text-white">Sewage</TabsTrigger>
+                <TabsTrigger value="all" className="rounded-full px-8 data-active:bg-emerald-600 data-active:text-white">All Projects</TabsTrigger>
+                <TabsTrigger value="residential" className="rounded-full px-8 data-active:bg-emerald-600 data-active:text-white">Residential</TabsTrigger>
+                <TabsTrigger value="commercial" className="rounded-full px-8 data-active:bg-emerald-600 data-active:text-white">Commercial</TabsTrigger>
+                <TabsTrigger value="sewage" className="rounded-full px-8 data-active:bg-emerald-600 data-active:text-white">Sewage</TabsTrigger>
               </TabsList>
             </div>
 
