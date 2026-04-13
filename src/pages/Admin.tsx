@@ -24,10 +24,21 @@ import { getAllInquiries, deleteInquiry, InquiryData, BookingData, ContactData }
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogDescription, 
+  DialogFooter,
+  DialogClose
+} from "@/components/ui/dialog";
+
 export default function Admin() {
   const [inquiries, setInquiries] = useState<InquiryData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [deleteId, setDeleteId] = useState<number | null>(null);
 
   const fetchInquiries = async () => {
     try {
@@ -45,12 +56,13 @@ export default function Admin() {
     fetchInquiries();
   }, []);
 
-  const handleDelete = async (id: number) => {
-    if (!confirm("Are you sure you want to delete this record?")) return;
+  const handleDelete = async () => {
+    if (deleteId === null) return;
     try {
-      await deleteInquiry(id);
-      setInquiries(prev => prev.filter(item => item.id !== id));
+      await deleteInquiry(deleteId);
+      setInquiries(prev => prev.filter(item => item.id !== deleteId));
       toast.success("Record deleted successfully.");
+      setDeleteId(null);
     } catch (error) {
       console.error("Failed to delete record:", error);
       toast.error("Failed to delete record.");
@@ -106,17 +118,36 @@ export default function Admin() {
           </TabsList>
 
           <TabsContent value="all" className="mt-0">
-            <InquiryGrid items={filteredInquiries} onDelete={handleDelete} />
+            <InquiryGrid items={filteredInquiries} onDelete={setDeleteId} />
           </TabsContent>
 
           <TabsContent value="bookings" className="mt-0">
-            <InquiryGrid items={bookings} onDelete={handleDelete} />
+            <InquiryGrid items={bookings} onDelete={setDeleteId} />
           </TabsContent>
 
           <TabsContent value="contacts" className="mt-0">
-            <InquiryGrid items={contacts} onDelete={handleDelete} />
+            <InquiryGrid items={contacts} onDelete={setDeleteId} />
           </TabsContent>
         </Tabs>
+
+        <Dialog open={deleteId !== null} onOpenChange={(open) => !open && setDeleteId(null)}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Confirm Deletion</DialogTitle>
+              <DialogDescription>
+                Are you sure you want to delete this inquiry? This action cannot be undone.
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="outline">Cancel</Button>
+              </DialogClose>
+              <Button variant="destructive" onClick={handleDelete}>
+                Delete Record
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
 
         {filteredInquiries.length === 0 && !isLoading && (
           <div className="text-center py-20 bg-white rounded-3xl border-2 border-dashed border-slate-200">
